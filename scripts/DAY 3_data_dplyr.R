@@ -109,7 +109,7 @@ surveys_long <- surveys %>%
 
 surveys_long %>%
   group_by(year, measurement, plot_type) %>%
-  summarize(mean_value = mean(value,na.rm = T)) %>%
+  summarize(mean_value = mean(values,na.rm = T)) %>%
   pivot_wider(names_from = measurement, values_from = mean_value)
 
 ###
