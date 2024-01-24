@@ -118,5 +118,5 @@ surveys_complete <- surveys %>%
          !is.na(hindfoot_length),
          !is.na(sex))
 
-write_csv(surveys_complete, file "data_raw/surveys_complete.csv")
+write_csv(surveys_complete, file = "data_raw/surveys_complete.csv")
           
