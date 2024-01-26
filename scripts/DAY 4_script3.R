@@ -39,7 +39,7 @@ pc_eigenvalues %>%
 pc_scores <- sample_pca$x %>%
   as_tibble(rownames = "sample")
 
-pc_scores %>%
+pca_plot <- pc_scores %>%
   ggplot(aes(x = PC1, y = PC2)) +
   geom_point()
 
@@ -65,7 +65,7 @@ top_genes <- pc_loadings %>%
 top_loadings <- pc_loadings %>%
   filter(gene %in% top_genes)
 
-ggplot(data = top_loadings) +
+loadings_plot <-  ggplot(data = top_loadings) +
   geom_segment(aes(x = 0, y = 0, xend = PC1, yend = PC2),
                 arrow = arrow(length = unit(0.1, "in")),
                 color = "brown") +
@@ -73,3 +73,21 @@ ggplot(data = top_loadings) +
             nudge_y = 0.005, size = 3) +
   scale_x_continuous(expand = c(0.02, 0.02))
 # the longer the segment, the more this gene has an influence on PC1 and PC2
+
+library(patchwork)
+
+(pca_plot | loadings_plot) +
+  plot_annotation(tag_levels = "A")
+
+library(ggfortify)
+autoplot(sample_pca)
+autoplot(sample_pca, data = sample_info %>% mutate(minute = as.factor(minute)),
+         colour = "minute", shape = "strain")
+(pca_plot | pca_plot | pca_plot) / loadings_plot
+
+library(broom)
+
+tidy(sample_pca, matrix = "eigenvalues")
+tidy(sample_pca, matrix = "loadings")
+
+
