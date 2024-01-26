@@ -39,11 +39,11 @@ pc_eigenvalues %>%
 pc_scores <- sample_pca$x %>%
   as_tibble(rownames = "sample")
 
-pca_plot <- pc_scores %>%
+pc_scores %>%
   ggplot(aes(x = PC1, y = PC2)) +
   geom_point()
 
-pc_scores %>%
+pca_plot <- pc_scores %>%
   full_join(sample_info, by = "sample") %>%
   ggplot(aes(x = PC1, y = PC2, 
              color = factor(minute),
